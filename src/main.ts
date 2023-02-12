@@ -9,7 +9,7 @@ import {
   Scissors,
 } from './GameElements'
 import { random } from './utils'
-import { fight, moveElements, resolveCollisions } from './game'
+import { fight, isEnd, moveElements, resolveCollisions } from './game'
 
 const NUMBER_OF_ELEMENTS_ONE_KIND = 20
 
@@ -56,12 +56,8 @@ const elements: GameElement[] = [
 redraw(elements, canvas)
 
 const interval = setInterval(() => {
-  const end = elements.every((element) => {
-    if (element.type === elements[0].type) {
-      return true
-    }
-    return false
-  })
+  const end = isEnd(elements)
+
   if (end) {
     clearInterval(interval)
     alert(`Game over! ${elements[0].type} won!`)

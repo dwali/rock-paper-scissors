@@ -66,3 +66,12 @@ export const resolveCollisions = (elements: GameElement[]) => {
     })
   })
 }
+
+export const isEnd = (elements: GameElement[]): boolean => {
+  return elements.every((element) => {
+    if (element.type === elements[0].type) {
+      return true
+    }
+    return false
+  })
+}
