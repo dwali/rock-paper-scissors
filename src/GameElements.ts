@@ -30,3 +30,4 @@ export const getSymbol = (type: string): string => {
 }
 
 export const ELEMENT_DIMENSION = 25
+export const ELEMENT_MOVE_DISTANCE = 1

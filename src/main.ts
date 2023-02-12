@@ -2,13 +2,14 @@ import './style.css'
 import { initCanvas, redraw } from './canvas'
 import {
   ELEMENT_DIMENSION,
+  ELEMENT_MOVE_DISTANCE,
   GameElement,
   Paper,
   Rock,
   Scissors,
 } from './GameElements'
 import { random } from './utils'
-import { fight } from './game'
+import { fight, moveElements, resolveCollisions } from './game'
 
 const NUMBER_OF_ELEMENTS_ONE_KIND = 20
 
@@ -66,46 +67,9 @@ const interval = setInterval(() => {
     alert(`Game over! ${elements[0].type} won!`)
   }
 
-  // move
-  elements.forEach((element) => {
-    const randomX = random(0, 2) - 1
-    const randomY = random(0, 2) - 1
-
-    element.x += randomX * 5
-    element.y += randomY * 5
-
-    if (element.x < 0) {
-      element.x = 0
-    }
-    if (element.x + ELEMENT_DIMENSION > canvas.clientWidth) {
-      element.x = canvas.clientWidth - ELEMENT_DIMENSION
-    }
-    if (element.y < 0) {
-      element.y = 0
-    }
-    if (element.y + ELEMENT_DIMENSION > canvas.clientHeight) {
-      element.y = canvas.clientHeight - ELEMENT_DIMENSION
-    }
-  })
-
-  // collision detection
-  elements.forEach((element) => {
-    elements.forEach((otherElement) => {
-      if (element === otherElement) {
-        return
-      }
-      if (
-        Math.abs(element.x - otherElement.x) < ELEMENT_DIMENSION &&
-        Math.abs(element.y - otherElement.y) < ELEMENT_DIMENSION &&
-        element.type !== otherElement.type
-      ) {
-        const newElementType = fight(element, otherElement)
-        element.type = newElementType
-        otherElement.type = newElementType
-      }
-    })
-  })
+  moveElements(elements)
+  resolveCollisions(elements)
 
   // redraw
   redraw(elements, canvas)
-}, 100)
+}, 1)

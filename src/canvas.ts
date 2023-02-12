@@ -1,4 +1,6 @@
 import { ELEMENT_DIMENSION, GameElement, getSymbol } from './GameElements'
+export const MAX_CANVAS_WITDH = 400
+export const MAX_CANVAS_HEIGHT = 400
 
 export const initCanvas = (canvas: HTMLDivElement) => {
   canvas.innerHTML = 'canvas'
