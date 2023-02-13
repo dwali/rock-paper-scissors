@@ -10,7 +10,7 @@ import { GameElement, Paper, Rock, Scissors } from './GameElements'
 import { random, random1 } from './utils'
 import { isEnd, moveElements, resolveCollisions } from './game'
 
-const NUMBER_OF_ELEMENTS_ONE_KIND = 20
+const NUMBER_OF_ELEMENTS_ONE_KIND = 30
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <canvas id="canvas" width="${MAX_CANVAS_WITDH}" height="${MAX_CANVAS_HEIGHT}">
@@ -27,8 +27,8 @@ const elements: GameElement[] = [
     .map(
       (): Scissors => ({
         type: 'scissors',
-        x: random(10, 100),
-        y: random(10, 100),
+        x: random(10, MAX_CANVAS_WITDH - 10),
+        y: random(10, MAX_CANVAS_HEIGHT - 10),
         vector: [random1(), random1()],
       })
     ),
@@ -37,8 +37,8 @@ const elements: GameElement[] = [
     .map(
       (): Rock => ({
         type: 'rock',
-        x: random(200, 300),
-        y: random(10, 100),
+        x: random(10, MAX_CANVAS_WITDH - 10),
+        y: random(10, MAX_CANVAS_HEIGHT - 10),
         vector: [random1(), random1()],
       })
     ),
@@ -47,8 +47,8 @@ const elements: GameElement[] = [
     .map(
       (): Paper => ({
         type: 'paper',
-        x: random(100, 200),
-        y: random(200, 300),
+        x: random(10, MAX_CANVAS_WITDH - 10),
+        y: random(10, MAX_CANVAS_HEIGHT - 10),
         vector: [random1(), random1()],
       })
     ),
