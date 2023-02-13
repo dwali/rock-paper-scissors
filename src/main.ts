@@ -1,25 +1,23 @@
 import './style.css'
-import { initCanvas, redraw } from './canvas'
 import {
-  ELEMENT_DIMENSION,
-  ELEMENT_MOVE_DISTANCE,
-  GameElement,
-  Paper,
-  Rock,
-  Scissors,
-} from './GameElements'
-import { random } from './utils'
-import { fight, isEnd, moveElements, resolveCollisions } from './game'
+  Canvas,
+  initCanvas,
+  MAX_CANVAS_HEIGHT,
+  MAX_CANVAS_WITDH,
+  redraw,
+} from './canvas'
+import { GameElement, Paper, Rock, Scissors } from './GameElements'
+import { random, random1 } from './utils'
+import { isEnd, moveElements, resolveCollisions } from './game'
 
 const NUMBER_OF_ELEMENTS_ONE_KIND = 20
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div id="canvas">
-  </div>
+  <canvas id="canvas" width="${MAX_CANVAS_WITDH}" height="${MAX_CANVAS_HEIGHT}">
+  </canvas>
 `
 
-const canvas = document.querySelector<HTMLDivElement>('#canvas')!
-
+const canvas = document.querySelector<Canvas>('#canvas')!
 initCanvas(canvas)
 
 const elements: GameElement[] = [
@@ -31,6 +29,7 @@ const elements: GameElement[] = [
         type: 'scissors',
         x: random(10, 100),
         y: random(10, 100),
+        vector: [random1(), random1()],
       })
     ),
   ...Array(NUMBER_OF_ELEMENTS_ONE_KIND)
@@ -40,6 +39,7 @@ const elements: GameElement[] = [
         type: 'rock',
         x: random(200, 300),
         y: random(10, 100),
+        vector: [random1(), random1()],
       })
     ),
   ...Array(NUMBER_OF_ELEMENTS_ONE_KIND)
@@ -49,17 +49,18 @@ const elements: GameElement[] = [
         type: 'paper',
         x: random(100, 200),
         y: random(200, 300),
+        vector: [random1(), random1()],
       })
     ),
 ]
 
 redraw(elements, canvas)
 
-const interval = setInterval(() => {
+const gameStep = () => {
   const end = isEnd(elements)
 
   if (end) {
-    clearInterval(interval)
+    // clearInterval(interval)
     alert(`Game over! ${elements[0].type} won!`)
   }
 
@@ -68,4 +69,11 @@ const interval = setInterval(() => {
 
   // redraw
   redraw(elements, canvas)
-}, 1)
+  if (!end) {
+    window.requestAnimationFrame(gameStep)
+  }
+}
+
+window.requestAnimationFrame(() => {
+  gameStep()
+})

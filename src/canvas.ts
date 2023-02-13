@@ -1,25 +1,40 @@
-import { ELEMENT_DIMENSION, GameElement, getSymbol } from './GameElements'
-export const MAX_CANVAS_WITDH = 400
-export const MAX_CANVAS_HEIGHT = 400
+import {
+  ELEMENT_DIMENSION,
+  GameElement,
+  getSymbol,
+  getFillStyle,
+} from './GameElements'
+export const MAX_CANVAS_WITDH = 600
+export const MAX_CANVAS_HEIGHT = 600
 
-export const initCanvas = (canvas: HTMLDivElement) => {
+export type Canvas = HTMLCanvasElement
+
+export const initCanvas = (canvas: Canvas) => {
   canvas.innerHTML = 'canvas'
+  canvas
   // canvas.appendChild(document.createElement('canvas'))
 }
 
-export const redraw = (elemnts: Array<GameElement>, canvas: HTMLDivElement) => {
+export const redraw = (elemnts: Array<GameElement>, canvas: Canvas) => {
   // clear canvas
-  canvas.innerHTML = ''
+  // canvas.innerHTML = ''
+  const context = canvas.getContext('2d')
+  if (!context) {
+    throw 'no context'
+  }
+  context?.clearRect(0, 0, MAX_CANVAS_WITDH, MAX_CANVAS_HEIGHT)
   elemnts.forEach((element) => {
     // create element
-    const divElement = document.createElement('div')
-    divElement.style.width = `${ELEMENT_DIMENSION}px`
-    divElement.style.height = `${ELEMENT_DIMENSION}px`
-    divElement.innerHTML = getSymbol(element.type)
-    divElement.style.position = 'absolute'
-    divElement.style.left = `${element.x}px`
-    divElement.style.top = `${element.y}px`
-    // draw element
-    canvas.appendChild(divElement)
+
+    context.beginPath()
+    // context.fillStyle = getFillStyle(element.type)
+    context.fillText(
+      getSymbol(element.type),
+      element.x,
+      element.y,
+      ELEMENT_DIMENSION
+    )
+    // context.fillRect(element.x, element.y, ELEMENT_DIMENSION, ELEMENT_DIMENSION)
+    context.stroke()
   })
 }
