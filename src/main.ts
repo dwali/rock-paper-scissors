@@ -10,7 +10,7 @@ import { GameElement, Paper, Rock, Scissors } from './GameElements'
 import { random, random1 } from './utils'
 import { isEnd, moveElements, resolveCollisions } from './game'
 
-const NUMBER_OF_ELEMENTS_ONE_KIND = 30
+const NUMBER_OF_ELEMENTS_ONE_KIND = 100
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <canvas id="canvas" width="${MAX_CANVAS_WITDH}" height="${MAX_CANVAS_HEIGHT}">
